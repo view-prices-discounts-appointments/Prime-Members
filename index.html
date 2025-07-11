@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Infinity Salon Offers</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
   <style>
     :root {
       --brand-red: #F71735;
@@ -20,7 +20,6 @@
       color: var(--white);
       line-height: 1.6;
       overflow-x: hidden;
-      position: relative;
     }
     header {
       background: var(--dark);
@@ -49,7 +48,6 @@
     }
     .flip-box {
       background-color: transparent;
-      width: 100%;
       perspective: 1000px;
       margin-bottom: 60px;
       position: relative;
@@ -58,67 +56,95 @@
       position: relative;
       width: 100%;
       text-align: center;
-      transition: transform 0.6s;
+      transition: transform 1s;
       transform-style: preserve-3d;
-      min-height: 500px;
+      animation: flipY 5s infinite ease-in-out;
     }
-    .flip-box:hover .flip-box-inner,
-    .flip-box.touch-flip .flip-box-inner {
-      transform: rotateY(180deg);
+    @keyframes flipY {
+      0%, 100% { transform: rotateY(0); }
+      50% { transform: rotateY(180deg); }
     }
-    .flip-box-front, .flip-box-back {
-      position: absolute;
+    .flip-box-front,
+    .flip-box-back {
+      position: relative;
       width: 100%;
-      height: 100%;
       backface-visibility: hidden;
       border: 1px solid var(--brand-red);
       border-radius: 10px;
       padding: 30px 20px;
       background: var(--dark);
       color: var(--white);
-      overflow-y: auto;
-    }
-    .flip-box-front ul {
-      list-style: none;
-      padding: 0;
-      counter-reset: li;
-      margin-top: 20px;
-    }
-    .flip-box-front li {
-      position: relative;
-      padding-left: 30px;
-      margin: 12px 0;
-    }
-    .flip-box-front li::before {
-      content: counter(li) ". ";
-      counter-increment: li;
-      position: absolute;
-      left: 0;
-      color: var(--brand-red);
-      font-weight: bold;
+      box-sizing: border-box;
     }
     .flip-box-back {
       transform: rotateY(180deg);
+      background: var(--brand-red);
+      color: var(--black);
+      font-weight: bold;
+      font-size: 2rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.5rem;
-      color: var(--black);
-      background: var(--brand-red);
-      font-weight: bold;
-      cursor: pointer;
-      padding: 20px;
-      text-align: center;
     }
+
+    .flip-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .price {
       background: var(--brand-red);
       color: var(--black);
       display: inline-block;
       padding: 6px 12px;
-      margin: 10px 0 20px;
+      margin-bottom: 20px;
       font-weight: bold;
       border-radius: 5px;
+      font-size: 1.2rem;
     }
+
+    .flip-box-front ul {
+      list-style: none;
+      padding: 0;
+      counter-reset: li;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .flip-box-front li {
+      counter-increment: li;
+      text-align: left;
+      width: 100%;
+      max-width: 400px;
+      margin: 6px 0;
+      display: flex;
+      gap: 10px;
+      color: white;
+    }
+    .flip-box-front li::before {
+      content: counter(li) ".";
+      color: var(--brand-red);
+      font-weight: bold;
+      min-width: 22px;
+      text-align: right;
+    }
+
+    .vip-ribbon {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: linear-gradient(to right, #FFD700, #FFB700);
+      color: #000;
+      padding: 6px 12px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      border-radius: 6px;
+      box-shadow: 0 0 10px gold;
+      z-index: 10;
+      text-transform: uppercase;
+    }
+
     .big-prices {
       position: fixed;
       top: 30%;
@@ -133,17 +159,7 @@
       pointer-events: none;
       user-select: none;
     }
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      background: var(--dark);
-      font-size: 0.9rem;
-      color: #777;
-    }
-    a.flip-link {
-      text-decoration: none;
-      display: block;
-    }
+
     .floating-icons {
       position: fixed;
       bottom: 20px;
@@ -164,19 +180,26 @@
       line-height: 50px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
-    .vip-ribbon {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: linear-gradient(to right, #FFD700, #FFB700);
-      color: #000;
-      padding: 6px 12px;
-      font-weight: bold;
-      font-size: 0.8rem;
-      border-radius: 6px;
-      box-shadow: 0 0 10px gold;
-      z-index: 10;
-      text-transform: uppercase;
+
+    a.flip-link {
+      text-decoration: none;
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--dark);
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      .big-prices {
+        font-size: 3.5rem;
+        right: 10px;
+        top: 20%;
+      }
     }
   </style>
 </head>
@@ -190,26 +213,28 @@
 
 <div class="section">
   <h2>For Men</h2>
-  <a href="https://wa.me/918432019333?text=I%20want%20to%20book%20the%20Rs599%20Men's%20Package" class="flip-link">
+  <a href="https://wa.me/918432019333?text=I%20want%20to%20book%20Rs599%20Men's%20package" class="flip-link">
     <div class="flip-box">
       <div class="vip-ribbon">GOLD</div>
       <div class="flip-box-inner">
         <div class="flip-box-front">
-          <p class="price">Rs. 599</p>
-          <ul>
-            <li>Haircut: Advanced Style</li>
-            <li>Beard: Beardo Oil</li>
-            <li>Hair Nourish: TRESemmé</li>
-            <li>Hair Wash: Schwarzkopf</li>
-            <li>Head Massage: CoolKing</li>
-            <li>Back Massage: By Machine</li>
-            <li>DeTan: Raaga Professionals</li>
-            <li>Nose Pore Purity: Dr. Rashel</li>
-            <li>Facial: Richfeel Professionals</li>
-            <li>Styling Finish: MG5</li>
-          </ul>
+          <div class="flip-content">
+            <p class="price">Rs. 599</p>
+            <ul>
+              <li>Haircut: Advanced Style</li>
+              <li>Beard: Beardo Oil</li>
+              <li>Hair Nourish: TRESemmé</li>
+              <li>Hair Wash: Schwarzkopf</li>
+              <li>Head Massage: CoolKing</li>
+              <li>Back Massage: By Machine</li>
+              <li>DeTan: Raaga Professionals</li>
+              <li>Nose Pore Purity: Dr. Rashel</li>
+              <li>Facial: Richfeel Professionals</li>
+              <li>Styling Finish: MG5</li>
+            </ul>
+          </div>
         </div>
-        <div class="flip-box-back">Book at Rs 599 Now</div>
+        <div class="flip-box-back">Yes all 10 services just at Rs 599 Book Now</div>
       </div>
     </div>
   </a>
@@ -218,68 +243,74 @@
 <div class="section">
   <h2>For Women</h2>
 
-  <a href="https://wa.me/918432019333?text=I%20want%20to%20book%20the%20Rs799%20Women's%20Package" class="flip-link">
+  <a href="https://wa.me/918432019333?text=I%20want%20to%20book%20Rs799%20Women's%20package" class="flip-link">
     <div class="flip-box">
       <div class="vip-ribbon">GOLD</div>
       <div class="flip-box-inner">
         <div class="flip-box-front">
-          <p class="price">Rs. 799</p>
-          <ul>
-            <li>Haircut & Blow-dry</li>
-            <li>Hair Wash & Conditioning</li>
-            <li>Manicure</li>
-            <li>Pedicure</li>
-            <li>Basic Facial (for glowing skin)</li>
-            <li>Threading (Eyebrows & Upper lip)</li>
-            <li>Hair Setting</li>
-          </ul>
+          <div class="flip-content">
+            <p class="price">Rs. 799</p>
+            <ul>
+              <li>Haircut & Blow-dry</li>
+              <li>Hair Wash & Conditioning</li>
+              <li>Manicure</li>
+              <li>Pedicure</li>
+              <li>Basic Facial (glowing skin)</li>
+              <li>Threading (Eyebrows & Lip)</li>
+              <li>Hair Setting</li>
+            </ul>
+          </div>
         </div>
-        <div class="flip-box-back">Book at Rs 799 Now</div>
+        <div class="flip-box-back">Yes all 7 services just at Rs 799 Book Now</div>
       </div>
     </div>
   </a>
 
-  <a href="https://wa.me/918432019333?text=I%20want%20to%20book%20the%20Rs999%20Women's%20Package" class="flip-link">
+  <a href="https://wa.me/918432019333?text=I%20want%20to%20book%20Rs999%20Women's%20package" class="flip-link">
     <div class="flip-box">
       <div class="vip-ribbon">GOLD</div>
       <div class="flip-box-inner">
         <div class="flip-box-front">
-          <p class="price">Rs. 999</p>
-          <ul>
-            <li>Haircut & Styling</li>
-            <li>Hair Spa Treatment</li>
-            <li>Manicure & Pedicure (with Scrub & Mask)</li>
-            <li>Deep Cleansing Facial</li>
-            <li>Body Waxing (hands and legs)</li>
-            <li>D-tan (Face & Neck)</li>
-            <li>Threading (Eyebrows, Upper Lip, & Forehead)</li>
-            <li>Head & Shoulder Massage</li>
-          </ul>
+          <div class="flip-content">
+            <p class="price">Rs. 999</p>
+            <ul>
+              <li>Haircut & Styling</li>
+              <li>Hair Spa Treatment</li>
+              <li>Manicure & Pedicure (Scrub + Mask)</li>
+              <li>Deep Cleansing Facial</li>
+              <li>Body Waxing (Hands & Legs)</li>
+              <li>D-tan (Face & Neck)</li>
+              <li>Threading (Full Face)</li>
+              <li>Head & Shoulder Massage</li>
+            </ul>
+          </div>
         </div>
-        <div class="flip-box-back">Book at Rs 999 Now</div>
+        <div class="flip-box-back">Yes all 8 services just at Rs 999 Book Now</div>
       </div>
     </div>
   </a>
 
-  <a href="https://wa.me/918432019333?text=I%20want%20to%20book%20the%20Rs3999%20Women's%20Package" class="flip-link">
+  <a href="https://wa.me/918432019333?text=I%20want%20to%20book%20Rs3999%20Women's%20package" class="flip-link">
     <div class="flip-box">
       <div class="vip-ribbon">GOLD</div>
       <div class="flip-box-inner">
         <div class="flip-box-front">
-          <p class="price">Rs. 3999</p>
-          <ul>
-            <li>Haircut, Styling</li>
-            <li>Advanced Hair Treatment (Keratin or Smoothening) or Highlights</li>
-            <li>Manicure & Pedicure (with Scrub, Mask & Paraffin treatment)</li>
-            <li>Luxury Facial (anti-aging or brightening)</li>
-            <li>Full Body Waxing</li>
-            <li>Full Body Polishing</li>
-            <li>D-tan (Full Body)</li>
-            <li>Advanced Threading (Eyebrows, Upper Lip, Forehead, Chin)</li>
-            <li>Full Body Massage</li>
-          </ul>
+          <div class="flip-content">
+            <p class="price">Rs. 3999</p>
+            <ul>
+              <li>Haircut & Styling</li>
+              <li>Keratin / Smoothening / Highlights</li>
+              <li>Mani-Pedi (Scrub, Mask, Paraffin)</li>
+              <li>Luxury Facial (Anti-aging)</li>
+              <li>Full Body Waxing</li>
+              <li>Full Body Polishing</li>
+              <li>D-tan (Full Body)</li>
+              <li>Advanced Threading (Full Face)</li>
+              <li>Full Body Massage</li>
+            </ul>
+          </div>
         </div>
-        <div class="flip-box-back">Book at Rs 3999 Now</div>
+        <div class="flip-box-back">Yes all 9 services just at Rs 3999 Book Now</div>
       </div>
     </div>
   </a>
@@ -296,19 +327,13 @@
 </footer>
 
 <script>
-  const priceElement = document.getElementById(\"priceScroll\");
-  const prices = [\"Rs599\", \"Rs799\", \"Rs999\", \"Rs3999\"];
+  const priceElement = document.getElementById("priceScroll");
+  const prices = ["Rs599", "Rs799", "Rs999", "Rs3999"];
   let i = 0;
   setInterval(() => {
     priceElement.textContent = prices[i];
     i = (i + 1) % prices.length;
   }, 2000);
-
-  document.querySelectorAll('.flip-box').forEach(box => {
-    box.addEventListener('click', () => {
-      box.classList.toggle('touch-flip');
-    });
-  });
 </script>
 
 </body>
